@@ -2,6 +2,8 @@
 
 > Re-frame extensions
 
+[![CircleCI](https://circleci.com/gh/vimsical/re-frame-utils.svg?style=svg)](https://circleci.com/gh/vimsical/re-frame-utils)
+
 
 
 ## Releases and Dependency Information
@@ -39,7 +41,7 @@ Tested against `re-frame 0.9.4`.
 
 
 
-## Inventory
+## Utils
 
 
 
