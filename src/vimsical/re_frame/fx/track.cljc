@@ -1,7 +1,8 @@
-(ns re-frame-utils.track
+(ns vimsical.re-frame.fx.track
   "The track fx allows dispatching an event every time the value of a subscription changes."
   (:require
-   [re-frame.core :as re-frame]))
+   [re-frame.core :as re-frame]
+   [reagent.ratom :as ratom]))
 
 ;;
 ;; * Register
