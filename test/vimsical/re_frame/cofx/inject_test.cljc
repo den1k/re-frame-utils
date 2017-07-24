@@ -66,7 +66,7 @@
 (t/deftest inject-vec-test
   (re-frame/reg-event-fx
    :update-sum
-   [(re-frame/inject-cofx :sub ^:ignore-dispose [:numbers])]
+   [(re-frame/inject-cofx ::sut/sub ^:ignore-dispose [:numbers])]
    (fn [{:keys [db numbers]} _]
      {:db (assoc db :sum (reduce + numbers))}))
   (re-frame/dispatch [:update-sum])
@@ -76,7 +76,7 @@
 (t/deftest inject-fn-test
   (re-frame/reg-event-fx
    :update-sum
-   [(re-frame/inject-cofx :sub (fn [[_ limit]] ^:ignore-dispose [:numbers limit]))]
+   [(re-frame/inject-cofx ::sut/sub (fn [[_ limit]] ^:ignore-dispose [:numbers limit]))]
    (fn [{:keys [db numbers]} _]
      {:db (assoc db :sum (reduce + numbers))}))
   (re-frame/dispatch [:update-sum 3])

@@ -35,10 +35,6 @@
      (re-frame/reg-event-fx ::update-source (fn [db [_ val]] {:db (assoc db :source val)}))
      (re-frame/reg-event-fx ::update-sink   (fn [db [_ val]] {:db (assoc db :sink val)}))
      ;;
-     ;; Reg the fx
-     ;;
-     (sut/reg-fx)
-     ;;
      ;; Run test
      ;;
      (f))))
@@ -53,14 +49,14 @@
   (re-frame/reg-event-fx
    ::start
    (fn [_ _]
-     {:track {:action       :register
-              :id           :test
-              :subscription [::source]
-              :event-fn     (fn [val] (when val [::update-sink (* 10 val)]))}}))
+     {::sut/register
+      {:id           :test
+       :subscription [::source]
+       :event-fn     (fn [val] (when val [::update-sink (* 10 val)]))}}))
   (re-frame/reg-event-fx
    ::stop
    (fn [_ _]
-     {:track {:action :dispose :id :test}}))
+     {::sut/dispose {:id :test}}))
 
   (let [s (re-frame/subscribe [::sink])]
     (t/is (= nil @s))

@@ -1,11 +1,51 @@
 (ns vimsical.re-frame.fx.track
-  "Dynamically dispatch events when subscriptions update.
+  "Dispatch events when subscriptions change.
+
+  Tracking a subscription is a stateful process that needs to be registered and
+  disposed of using an id.
+
+  Fx input map:
+
+  `:action` either `:register` or `:dispose`
+  `:id` any value
+  `:subscription` a subscription vector
+  `:event-fn` a fn of a subscription value to an event vector.
+
+  Once a track for a subscription is registered, every time that subscription
+  updates the track will invoke `:event-fn` with the subscription's value, it
+  should return an event vector for `re-frame.core/dispatch` or nil for a no-op.
 
   Usage:
 
-  Invoke `reg-fx` to register the fx handler.
+  (require '[vimsical.re-frame.fx.track :as track])
 
-  Refer to the docstring for `track`.
+  0. Context
+
+    Given the following subscription:
+
+    (re-frame/reg-sub ::my-sub (fn [_ sub-arg] ...))
+
+    We want to invoke a handler for every update
+
+    (re-frame/reg-event ::my-sub-did-update (fn [_ sub-arg sub-value] ...))
+
+  1. Register a track
+
+    (re-frame/reg-event-fx
+      ::register-track
+      (fn [cofx event]
+       {::track/register
+        {:id           :my-track
+         :subscription [::my-sub \"my-sub-arg\"]
+         :event-fn     (fn [sub-value] [::my-sub-did-update \"my-sub-arg\" sub-value])}}))
+
+  2. Dispose of the track using its id
+
+    (re-frame/reg-event-fx
+      ::dispose-track
+      (fn [cofx event]
+       {::track/dispose
+        {:id :my-track}}))
   "
   (:require
    [re-frame.core :as re-frame]
@@ -17,7 +57,7 @@
 ;;
 
 
-(defonce ^:private track-register (atom {}))
+(defonce ^:private register (atom {}))
 
 
 ;;
@@ -50,88 +90,34 @@
                 (re-frame/dispatch event-vector)))))))))
 
 
+(defn ensure-vec [x] (if (sequential? x) x [x]))
+
+
 ;;
-;; * Fx handler
+;; * Fx handlers
 ;;
 
 
-(defmulti track-fx* :action)
-
-
-(defmethod track-fx* :register
-  [{:keys [id] :as track}]
-  (if-some [track' (get @track-register id)]
-    (throw (ex-info "Track already exists" {:track track' :tried track}))
-    (let [track (new-reagent-track track)]
-      (swap! track-register assoc id track))))
-
-
-(defmethod track-fx* :dispose
-  [{:keys [id] :as track}]
-  (if-some [track (get @track-register id)]
-    #?(:cljs (do (ratom/dispose! track) (swap! track-register dissoc id)) :clj nil)
-    (throw (ex-info "Track isn't registered" {:track track}))))
-
-
-(defn track
-  "Dispatch an event when a subscription changes.
-
-  Tracking a subscription is a stateful process that needs to be registered and
-  disposed of using an id.
-
-  Fx input map:
-
-  `:action` either `:register` or `:dispose`
-  `:id` any value
-  `:subscription` a subscription vector
-  `:val->event` a fn of a subscription value to an event vector.
-
-  Once a track for a subscription is registered, every time that subscription
-  updates the track will invoke `:val->event` with the subscription's value, it
-  should return an event vector for `re-frame.core/dispatch` or nil for a no-op.
-
-  Usage:
-
-  0. Context
-
-    Given the following subscription:
-
-    (re-frame/reg-sub ::my-sub (fn [_ arg] ...))
-
-    We want to invoke a handler with every update
-
-    (re-frame/reg-event ::my-sub-updated (fn [_ arg sub-value] ...))
-
-  1. Register a track
-
-    (re-frame/reg-event-fx
-      ::start-track
-      (fn [cofx event]
-       {:track
-        {:action       :register
-         :id           :my-track
-         :subscription [::my-sub \"my-arg\"]
-         :val->event   (fn [sub-value] [::my-sub-updated \"my-arg\" sub-value])}}))
-
-  2. Dispose of the track using its id
-
-    (re-frame/reg-event-fx
-      ::stop-track
-      (fn [cofx event]
-       {:track
-        {:action :dispose
-         :id     :my-track}}))
-  "
+(defn register-fx
   [track-or-tracks]
-  (letfn [(ensure-vec [x]
-            (if (sequential? x) (vec x) (vector x)))]
-    (doseq [track (ensure-vec track-or-tracks)]
-      (track-fx* track))))
+  (doseq [{:keys [id] :as track} (ensure-vec track-or-tracks)]
+    (if-some [track' (get @register id)]
+      (throw (ex-info "Track already exists" {:track track' :tried track}))
+      (let [track (new-reagent-track track)]
+        (swap! register assoc id track)))))
+
+
+(defn dispose-fx
+  [track-or-tracks]
+  (doseq [{:keys [id] :as track} (ensure-vec track-or-tracks)]
+    (if-some [track (get @register id)]
+      #?(:cljs (do (ratom/dispose! track) (swap! register dissoc id)) :clj nil)
+      (throw (ex-info "Track isn't registered" {:track track})))))
+
 
 ;;
 ;; * Entry point
 ;;
 
-(defn reg-fx
-  ([] (reg-fx :track))
-  ([fx] (re-frame/reg-fx fx track)))
+(re-frame/reg-fx ::register register-fx)
+(re-frame/reg-fx ::dispose dispose-fx)

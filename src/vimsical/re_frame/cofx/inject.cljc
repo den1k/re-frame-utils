@@ -56,13 +56,15 @@
 
   Examples:
 
+  (require '[vimsical.re-frame.cofx.inject :as inject])
+
   ;; Injecting a simple subscription:
 
   (re-frame/reg-sub ::simple ...)
 
   (re-frame/reg-event-fx
    ::simple-handler
-   [(re-frame/inject-cofx :sub [::simple]]]
+   [(re-frame/inject-cofx ::inject/sub [::simple]]]
    (fn [{:as cofx {::keys [injected-static]} params]
      ...)
 
@@ -73,8 +75,8 @@
 
   (re-frame/reg-event-fx
    ::dynamic-handler
-   [(re-frame/inject-cofx :sub
-      (fn [[_ arg1 arg2]]
+   [(re-frame/inject-cofx ::inject/sub
+      (fn [[_ arg1 arg2]] f
         ...
         [::dynamic arg1 arg2]))]
    (fn [{:as cofx {::keys [injected-dynamic]} [_ arg1 arg-2]]
@@ -107,4 +109,4 @@
 ;; * Entry point
 ;;
 
-(re-frame/reg-cofx :sub inject)
+(re-frame/reg-cofx ::sub inject)
