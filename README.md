@@ -4,6 +4,7 @@
 
 [![CircleCI](https://circleci.com/gh/vimsical/re-frame-utils.svg?style=svg)](https://circleci.com/gh/vimsical/re-frame-utils)
 
+[![Clojars Project](https://img.shields.io/clojars/v/re-frame-utils.svg)](https://clojars.org/re-frame-utils)
 
 
 ## Releases and Dependency Information
@@ -37,7 +38,7 @@
 
 ## Dependencies and Compatibility
 
-Tested against `re-frame 0.9.4`.
+Tested against `re-frame 0.9.4` and `clojurescript 1.9.671`.
 
 
 
