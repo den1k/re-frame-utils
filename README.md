@@ -50,7 +50,7 @@ Tested against `re-frame 0.9.4` and `clojurescript 1.9.671`.
 
 
 
-#### [Inject](./src/vimsical/re-frame/cofx/inject.cljc)
+#### [Inject](./src/vimsical/re_frame/cofx/inject.cljc)
 
 Inject a subscription in an event handler.
 
@@ -60,7 +60,7 @@ Inject a subscription in an event handler.
 
 
 
-#### [Track](./src/vimsical/re-frame/fx/track.cljs)
+#### [Track](./src/vimsical/re_frame/fx/track.cljs)
 
 Dynamically dispatch events when subscriptions update.
 
