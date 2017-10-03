@@ -1,7 +1,7 @@
 (ns vimsical.re-frame.cofx.inject
   "Inject a subscription in an event handler.
 
-  ***Performance caveat***
+  *** Performance caveat ***
 
   Do not inject subscriptions unless they are also used in a component.
 
@@ -65,7 +65,7 @@
   (re-frame/reg-event-fx
    ::simple-handler
    [(re-frame/inject-cofx ::inject/sub [::simple]]]
-   (fn [{:as cofx {::keys [injected-static]} params]
+   (fn [{:as cofx {::keys [simple]} params]
      ...)
 
 
@@ -76,10 +76,10 @@
   (re-frame/reg-event-fx
    ::dynamic-handler
    [(re-frame/inject-cofx ::inject/sub
-      (fn [[_ arg1 arg2]] f
+      (fn [[_ arg1 arg2]]
         ...
         [::dynamic arg1 arg2]))]
-   (fn [{:as cofx {::keys [injected-dynamic]} [_ arg1 arg-2]]
+   (fn [{:as cofx {::keys [dynamic]} [_ arg1 arg-2]]
      ...)
   "
   (fn [coeffects query-vector-or-event->query-vector-fn]
