@@ -1,4 +1,4 @@
-(defproject re-frame-utils "0.1.0-SNAPSHOT"
+(defproject re-frame-utils "0.1.0"
   :description "Fxs and CoFxs for re-frame"
   :url "http://github.com/vimsical/re-frame-utils"
   :license {:name "MIT"}
@@ -9,7 +9,7 @@
              :dev      {:dependencies [[org.clojure/clojurescript "1.9.671"]
                                        [reagent "0.6.2" :exclusions [org.clojure/clojurescript]]
                                        [re-frame "0.9.4" :exclusions [org.clojure/clojurescript]]
-                                       [day8.re-frame/test "0.1.5" :exclusions [org.clojure/clojurescript]][org.clojure/clojurescript "1.9.671"]]}}
+                                       [day8.re-frame/test "0.1.5" :exclusions [org.clojure/clojurescript]]]}}
   :cljsbuild
   {:builds
    [{:id           "test"

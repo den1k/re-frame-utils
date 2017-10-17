@@ -9,25 +9,23 @@
 
 ## Releases and Dependency Information
 
-* SNAPSHOT only, stable release coming soon
-
 * [All releases](https://clojars.org/vimsical/re-frame-utils)
 
 [Leiningen] dependency information:
 
-    [vimsical/re-frame-utils "0.1.0-SNAPSHOT"]
+    [vimsical/re-frame-utils "0.1.0"]
 
 [Maven] dependency information:
 
     <dependency>
       <groupId>vimsical</groupId>
       <artifactId>re-frame-utils</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <version>0.1.0</version>
     </dependency>
 
 [Gradle] dependency information:
 
-    compile "vimsical:re-frame-utils:0.1.0-SNAPSHOT"
+    compile "vimsical:re-frame-utils:0.1.0"
 
 [Clojars]: http://clojars.org/
 [Leiningen]: http://leiningen.org/
