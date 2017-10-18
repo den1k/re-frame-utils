@@ -58,7 +58,7 @@ Inject a subscription in an event handler.
 
 
 
-#### [Track](./src/vimsical/re_frame/fx/track.cljs)
+#### [Track](./src/vimsical/re_frame/fx/track.cljc)
 
 Dynamically dispatch events when subscriptions update.
 
