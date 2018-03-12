@@ -13,12 +13,12 @@
 
 [Leiningen] dependency information:
 
-    [vimsical/re-frame-utils "0.1.0"]
+    [re-frame-utils "0.1.0"]
 
 [Maven] dependency information:
 
     <dependency>
-      <groupId>vimsical</groupId>
+      <groupId>re-frame-utils</groupId>
       <artifactId>re-frame-utils</artifactId>
       <version>0.1.0</version>
     </dependency>
