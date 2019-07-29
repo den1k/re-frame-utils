@@ -1,4 +1,4 @@
-(defproject re-frame-utils "0.1.0"
+(defproject re-frame-utils "0.1.1"
   :description "Fxs and CoFxs for re-frame"
   :url "http://github.com/vimsical/re-frame-utils"
   :license {:name "MIT"}
@@ -16,7 +16,7 @@
      :source-paths ["src/" "test/"]     ; test is needed for the runner
      :test-paths   ["test/"]
      :compiler     {:main           vimsical.re-frame.runner
-                    :output-to      "resources/out/test.js"
-                    :output-dir     "resources/out"
+                    :output-to      "target/cljs-test/test.js"
+                    :output-dir     "target/cljs-test"
                     :optimizations  :none
                     :target         :nodejs}}]})
