@@ -13,7 +13,7 @@
 
 [Leiningen] dependency information:
 
-    [vimsical/re-frame-utils "0.1.0"]
+    [re-frame-utils "0.1.0"]
 
 [Maven] dependency information:
 
