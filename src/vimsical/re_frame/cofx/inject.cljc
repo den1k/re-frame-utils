@@ -64,8 +64,8 @@
 
   (re-frame/reg-event-fx
    ::simple-handler
-   [(re-frame/inject-cofx ::inject/sub [::simple]]]
-   (fn [{:as cofx {::keys [simple]} params]
+   [(re-frame/inject-cofx ::inject/sub [::simple])]
+   (fn [{:as cofx ::keys [simple]} params]
      ...)
 
 
@@ -79,7 +79,7 @@
       (fn [[_ arg1 arg2]]
         ...
         [::dynamic arg1 arg2]))]
-   (fn [{:as cofx {::keys [dynamic]} [_ arg1 arg-2]]
+   (fn [{:as cofx ::keys [dynamic]} [_ arg1 arg-2]]
      ...)
   "
   (fn [coeffects query-vector-or-event->query-vector-fn]
